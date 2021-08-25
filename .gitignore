@@ -11,5 +11,6 @@ pids
 logs
 results
 build
+seeds
 
 node_modules
