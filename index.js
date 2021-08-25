@@ -23,23 +23,50 @@ const Campground = require('./models/campground')
 app.get('/', (req, res) => {
     res.render('home');
 })
-
-app.get('/makecampground', async (req, res) => {
-    let newCamp;
+app.get('/campgrounds', async (req, res) => {
+    let allCampgrounds;
     try
     {
-        newCamp = new Campground({title: 'Backyard'});
-        await newCamp.save()
+        allCampgrounds = await Campground.find({});
+    }
+    catch(e)
+    {
+        console.log('[Mongoose] Error getting all campgrounds');
+        console.log(e);
+    }
+    res.render('campgrounds/index.ejs', { allCampgrounds });
+})
+app.get('/campgrounds/:id', async (req, res) => {
+    const { id } = req.params;
+    let campground;
+    try
+    {
+        campground = await Campground.findById(id);
     }
     catch (e)
     {
-        console.log(`[Mongoose] Error creating campground ${newCamp}`)
-        console.log(e)
-        process.exit(1);
+        console.log(`[Mongoose] Error finding campground with id ${id}`);
+        res.send('404! We Couldn\'t Find That!')
     }
-    console.log('[YelpCamp] Campground Created');
-    res.send(newCamp);
+    res.render('campgrounds/details', { campground });
 })
+
+// app.get('/makecampground', async (req, res) => {
+//     let newCamp;
+//     try
+//     {
+//         newCamp = new Campground({title: 'Backyard'});
+//         await newCamp.save()
+//     }
+//     catch (e)
+//     {
+//         console.log(`[Mongoose] Error creating campground ${newCamp}`)
+//         console.log(e)
+//         process.exit(1);
+//     }
+//     console.log('[YelpCamp] Campground Created');
+//     res.send(newCamp);
+// })
 
 // express port
 const PORT = process.env.PORT || 3000;
