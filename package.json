@@ -11,5 +11,10 @@
     "url": "yelpcamp"
   },
   "author": "Adeel Hussain",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^6.0.0"
+  }
 }
